@@ -1,0 +1,24 @@
+node{
+    stage('job_4'){
+        jobDsl scriptText: '''pipelineJob('job_4'){
+            concurrentBuild(false)
+                triggers {
+                    githubPush()
+                }
+                definition {
+                    cpsScm {
+                        scm {
+                            git {
+                                remote {
+                                    github('jessmccay/pcf-practice', 'ssh')
+                                    credentials('pcf-practice')
+                                }
+                                branch('master')
+                            }
+                        }
+                        scriptPath('jenkins/Jenkinsfile-dev')
+                    }
+                }
+        }'''
+    }
+}
